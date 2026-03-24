@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auto Injeção</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* Fundo com Subaru Forester 2009 passando */
+  .hero {
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95));
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 60px;
+  }
+  .hero > div {
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    color: gold;
+    text-shadow: 0 0 10px gold;
+  }
+
+  .carro-animado {
+    position: absolute;
+    bottom: 10%;
+    left: -300px;
+    width: 300px;
+    animation: moverCarro 20s linear infinite;
+    opacity: 0.85;
+    z-index: 1;
+  }
+
+  @keyframes moverCarro {
+    0% {
+      left: -350px;
+      opacity: 0.6;
+    }
+    50% {
+      left: 50%;
+      opacity: 1;
+      transform: translateX(-50%);
+    }
+    100% {
+      left: 110vw;
+      opacity: 0.6;
+      transform: translateX(0);
+    }
+  }
+
+  .services {
+    padding: 80px 20px;
+    text-align: center;
+    background: #0a0a0a;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .card {
+    background: #111;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    user-select: none;
+    font-weight: 600;
+    color: #eee;
+    box-shadow: none;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    /* remove borda amarela e sombra */
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed; 
+    z-index: 9999; 
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .modal.show {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: #111;
+    border-radius: 15px;
+    padding: 30px 40px;
+    max-width: 500px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 30px #444;
+    font-size: 18px;
+    transform: scale(0.9);
+    transition: transform 0.4s ease;
+  }
+
+  .modal.show .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 28px;
+    color: gold;
+  }
+
+  .modal-content p {
+    margin-bottom: 25px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  /* Form Section */
+  .form-section {
+    padding: 80px 20px;
+    background: #0a0a0a;
+    text-align: center;
+  }
+
+  .form-box {
+    max-width: 400px;
+    margin: auto;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #111;
+    border: 1px solid #333;
+    color: white;
+    font-size: 16px;
+  }
+
+  button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 14px;
+    background: gold;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #ccaa00;
+  }
+
+  #preco {
+    margin-top: 10px;
+    color: gold;
+    font-weight: 600;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.6;
+    font-size: 14px;
+  }
+</style>
+
+</head>
+<body>
+
+<section class="hero">
+  <div>
+    <h1>Auto Injeção</h1>
+    <p>Performance e precisão para seu veículo</p>
+  </div>
+  <img class="carro-animado" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/2009_Subaru_Forester_2.5XT.jpg/320px-2009_Subaru_Forester_2.5XT.jpg" alt="Subaru Forester 2009" />
+</section>
+
+<section class="services">
+  <h2>Nossos Serviços</h2>
+  <div class="grid">
+    <div class="card" data-key="injeção">Injeção Eletrônica</div>
+    <div class="card" data-key="oleo">Troca de óleo</div>
+    <div class="card" data-key="bicos">Limpeza de Bicos</div>
+    <div class="card" data-key="escapamento">Escapamentos</div>
+    <div class="card" data-key="freios">Freios / ABS</div>
+    <div class="card" data-key="embreagem">Embreagem</div>
+    <div class="card" data-key="radiador">Radiadores</div>
+    <div class="card" data-key="suspensao">Suspensão</div>
+    <div class="card" data-key="revisao">Revisão Completa</div>
+    <div class="card" data-key="inspecao">Diagnóstico / Inspeção</div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalText">
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<section class="form-section">
+  <h2>Agendar Serviço</h2>
+  <div class="form-box">
+    <form id="agendamentoForm" onsubmit="enviarWhats(event)">
+      <input type="text" id="nome" placeholder="Seu nome" required />
+      <input type="tel" id="telefone" placeholder="Telefone" required />
+      <select id="servico" onchange="atualizarPreco()" required>
+        <option value="">Escolha o serviço</option>
+        <option value="Revisão Completa|150">Revisão Completa (R$150)</option>
+        <option value="Diagnóstico / Inspeção|80">Inspeção (R$80)</option>
+        <option value="Injeção Eletrônica|120">Injeção Eletrônica (R$120)</option>
+        <option value="Troca de óleo|70">Troca de óleo (R$70)</option>
+        <option value="Limpeza de Bicos|100">Limpeza de Bicos (R$100)</option>
+        <option value="Escapamentos|120">Escapamentos (R$120)</option>
+        <option value="Freios / ABS|150">Freios (R$150)</option>
+        <option value="Embreagem|250">Embreagem (R$250)</option>
+        <option value="Radiadores|180">Radiadores (R$180)</option>
+        <option value="Suspensão|200">Suspensão (R$200)</option>
+      </select>
+      <p id="preco"></p>
+      <input type="date" id="data" required />
+      <input type="time" id="hora" required />
+      <button type="submit">Confirmar Agendamento</button>
+    </form>
+  </div>
+</section>
+
+<footer>© 2026 Auto Injeção</footer>
+
+<script>
+  const dadosServicos = {
+    injeção: {
+      titulo: "Injeção Eletrônica",
+      texto:
+        "Sistema eletrônico do motor. Melhora desempenho. Valor médio: R$120",
+    },
+    oleo: {
+      titulo: "Troca de óleo",
+      texto: "Troca de óleo e filtro. Essencial para o motor. Valor médio: R$70",
+    },
+    bicos: {
+      titulo: "Limpeza de Bicos",
+      texto: "Limpeza de bicos injetores. Valor médio: R$100",
+    },
+    escapamento: {
+      titulo: "Escapamentos",
+      texto: "Manutenção do sistema de escapamento. Valor médio: R$120",
+    },
+    freios: {
+      titulo: "Freios / ABS",
+      texto: "Sistema de freios e ABS. Segurança total. Valor médio: R$150",
+    },
+    embreagem: {
+      titulo: "Embreagem",
+      texto: "Troca de embreagem. Valor médio: R$250",
+    },
+    radiador: {
+      titulo: "Radiadores",
+      texto: "Sistema de arrefecimento. Valor médio: R$180",
+    },
+    suspensao: {
+      titulo: "Suspensão",
+      texto: "Conforto e estabilidade. Valor médio: R$200",
+    },
+    revisao: {
+      titulo: "Revisão Completa",
+      texto: "Revisão geral do veículo. Valor médio: R$150",
+    },
+    inspecao: {
+      titulo: "Diagnóstico / Inspeção",
+      texto: "Diagnóstico completo do veículo. Valor médio: R$80",
+    },
+  };
+
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText = document.getElementById("modalText");
+
+  document.querySelectorAll(".card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const key = card.getAttribute("data-key");
+      const dados = dadosServicos[key];
+      if (dados) {
+        modalTitle.textContent = dados.titulo;
+        modalText.textContent = dados.texto;
+        modal.classList.add("show");
+      }
+    });
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+
+  function atualizarPreco() {
+    let valor = document.getElementById("servico").value;
+    if (!valor) return;
+    let preco = valor.split("|")[1];
+    document.getElementById("preco").innerText = "Valor médio: R$" + preco;
+  }
+
+  function enviarWhats(event) {
+    event.preventDefault();
+
+    let nome = document.getElementById("nome").value;
+    let telefone = document.getElementById("telefone").value;
+    let partes = document.getElementById("servico").value.split("|");
+    let servico = partes[0];
+    let preco = partes[1];
+    let data = document.getElementById("data").value;
+    let hora = document.getElementById("hora").value;
+
+    let numero = "5599999999999"; // Coloque seu número com DDD aqui
+
+    let mensagem = `Agendamento:%0A
+Nome: ${nome}%0A
+Telefone: ${telefone}%0A
+Serviço: ${servico}%0A
+Valor: R$${preco}%0A
+Data: ${data}%0A
+Hora: ${hora}`;
+
+    window.open(`https://wa.me/${numero}?text=${mensagem}`, "_blank");
+  }
+</script>
+
+</body>
+</html>
